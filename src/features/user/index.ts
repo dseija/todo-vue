@@ -1,3 +1,4 @@
+export * from './userHelpers';
 export * from './userService';
 export * from './userTypes';
 

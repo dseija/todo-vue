@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { appRouter } from '../../app';
+import { useRouter } from 'vue-router';
 import { isAValidEmail } from '../../common/utils';
 import { userRegister } from './userService';
+
+const router = useRouter();
 
 const firstname = ref('');
 const lastname = ref('');
@@ -46,7 +48,7 @@ const onSubmit = async () => {
 
     if (user) {
       console.log('user registered!');
-      appRouter.replace({ path: '/signin/register/success' });
+      router.replace({ path: '/signin/register/success' });
     } else {
       errorMessage.value =
         err.response?.status === 409
@@ -68,6 +70,6 @@ const onSubmit = async () => {
     <input type="password" v-model="password" placeholder="Password" />
     <button type="submit">Sign Up</button>
   </form>
-  <a href="/signin">Already have an account? Sign in</a>
+  <router-link to="/signin">Already have an account? Sign in</router-link>
   <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
 </template>

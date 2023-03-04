@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { setUserSessionCookies } from './userHelpers';
 import { userLogin } from './userService';
+
+const router = useRouter();
 
 const username = ref('');
 const password = ref('');
@@ -21,7 +25,8 @@ const onSubmit = async () => {
     });
 
     if (user && user.token) {
-      console.log('user logged in!');
+      setUserSessionCookies(user);
+      router.replace({ path: '/' });
     } else {
       errorMessage.value =
         err.response?.status === 401
@@ -42,6 +47,6 @@ const onSubmit = async () => {
     <input type="password" v-model="password" placeholder="Password" />
     <button type="submit">Sign In</button>
   </form>
-  <a href="/signup">Don't have an account? Sign Up</a>
+  <router-link to="/signup">Don't have an account? Sign Up</router-link>
   <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
 </template>
