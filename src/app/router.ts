@@ -5,17 +5,30 @@ import NotFound from '../pages/NotFound.vue';
 import Signin from '../pages/Signin.vue';
 import Signup from '../pages/Signup.vue';
 
+const authRequired = () =>
+  !getUserSessionToken() ? { path: '/signin' } : true;
+
+const validateActiveSession = () =>
+  getUserSessionToken() ? { path: '/' } : true;
+
 const appRouter = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/:pathMatch(.*)*', component: NotFound },
+
     {
       path: '/',
       component: Home,
-      beforeEnter: () => (!getUserSessionToken() ? { path: '/signin' } : true),
+      beforeEnter: authRequired,
     },
-    { path: '/signin/:action?/:status?', component: Signin, props: true },
-    { path: '/signup', component: Signup },
+
+    {
+      path: '/signin/:action?/:status?',
+      component: Signin,
+      props: true,
+      beforeEnter: validateActiveSession,
+    },
+    { path: '/signup', component: Signup, beforeEnter: validateActiveSession },
   ],
 });
 
