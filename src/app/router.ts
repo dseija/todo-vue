@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { getUserSessionToken } from '../features/user';
 import Home from '../pages/Home.vue';
 import NotFound from '../pages/NotFound.vue';
+import Profile from '../pages/Profile.vue';
 import Signin from '../pages/Signin.vue';
 import Signup from '../pages/Signup.vue';
 
@@ -19,6 +20,11 @@ const appRouter = createRouter({
     {
       path: '/',
       component: Home,
+      beforeEnter: authRequired,
+    },
+    {
+      path: '/profile',
+      component: Profile,
       beforeEnter: authRequired,
     },
 
