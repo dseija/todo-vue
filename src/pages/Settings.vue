@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Layout } from '../features/layout';
-import { UserProfile } from '../features/user';
+import { SettingsList } from '../features/settings';
 </script>
 
 <template>
   <Layout>
-    <h2>My Profile</h2>
-    <UserProfile />
+    <h2>Settings</h2>
+    <SettingsList />
   </Layout>
 </template>

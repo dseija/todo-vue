@@ -4,6 +4,8 @@ import { useRouter } from 'vue-router';
 import { setUserSessionCookies } from './userHelpers';
 import { userLogin } from './userService';
 
+const { extraAction } = defineProps<{ extraAction?: () => void }>();
+
 const router = useRouter();
 
 const username = ref('');
@@ -26,6 +28,9 @@ const onSubmit = async () => {
 
     if (user && user.token) {
       setUserSessionCookies(user);
+
+      if (extraAction) await extraAction();
+
       router.replace({ path: '/' });
     } else {
       errorMessage.value =

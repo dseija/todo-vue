@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import router from '../../app/router';
+import { clearSettings } from '../settings';
 import { clearUserCookies } from '../user';
 
 const logout = () => {
   clearUserCookies();
+  clearSettings();
   router.replace({ path: '/signin' });
 };
 </script>
