@@ -13,6 +13,7 @@ const password = ref('');
 const submitting = ref(false);
 const submitted = ref(false);
 const errorMessage = ref('');
+const errorShow = ref(false);
 
 const isFormValid = () => Boolean(username.value && password.value);
 
@@ -37,6 +38,8 @@ const onSubmit = async () => {
         err.response?.status === 401
           ? 'Wrong username or password.'
           : 'Unexpected error, please try again.';
+
+      errorShow.value = true;
     }
 
     submitting.value = false;
@@ -72,10 +75,18 @@ const onSubmit = async () => {
         size="20"
     /></v-btn>
   </v-form>
-  <div class="d-flex flex-row-reverse mt-4">
+  <div class="d-flex w-100 flex-row-reverse mt-4">
     <router-link class="text-decoration-none" to="/signup"
       >Don't have an account? Sign Up</router-link
     >
   </div>
-  <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
+
+  <v-snackbar v-model="errorShow" :timeout="5000" location="top">
+    {{ errorMessage }}
+    <template v-slot:actions>
+      <v-btn color="error" variant="text" @click="() => (errorShow = false)">
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>

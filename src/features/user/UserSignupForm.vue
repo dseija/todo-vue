@@ -13,6 +13,7 @@ const password = ref('');
 const submitting = ref(false);
 const submitted = ref(false);
 const errorMessage = ref('');
+const errorShow = ref(false);
 
 const isUsernameInvalid = () =>
   Boolean(
@@ -54,6 +55,8 @@ const onSubmit = async () => {
         err.response?.status === 409
           ? 'An account with that email already exists.'
           : 'Unexpected error, please try again.';
+
+      errorShow.value = true;
     }
 
     submitting.value = false;
@@ -63,13 +66,63 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <input type="text" v-model="firstname" placeholder="First Name" />
-    <input type="text" v-model="lastname" placeholder="Last Name" />
-    <input type="text" v-model="username" placeholder="Email Address" />
-    <input type="password" v-model="password" placeholder="Password" />
-    <button type="submit">Sign Up</button>
-  </form>
-  <router-link to="/signin">Already have an account? Sign in</router-link>
-  <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
+  <v-form @submit.prevent="onSubmit" class="w-100">
+    <v-row>
+      <v-col>
+        <v-text-field
+          variant="outlined"
+          label="Last Name*"
+          :readonly="submitting"
+          :rules="[(v) => !!v || 'Last Name is required']"
+          v-model="firstname"
+        />
+      </v-col>
+      <v-col>
+        <v-text-field
+          variant="outlined"
+          label="First Name*"
+          :readonly="submitting"
+          :rules="[(v) => !!v || 'First Name is required']"
+          v-model="lastname"
+        />
+      </v-col>
+    </v-row>
+    <v-text-field
+      variant="outlined"
+      label="Email Address*"
+      :readonly="submitting"
+      :rules="[(v) => !!v || 'Email Address is required']"
+      v-model="username"
+    />
+    <v-text-field
+      type="password"
+      variant="outlined"
+      label="Password*"
+      :readonly="submitting"
+      :rules="[(v) => !!v || 'Password is required']"
+      v-model="password"
+    />
+    <v-btn type="submit" block color="primary" :disabled="submitting"
+      >Sign Up
+      <v-progress-circular
+        v-if="submitting"
+        class="ml-2"
+        indeterminate
+        size="20"
+    /></v-btn>
+  </v-form>
+  <div class="d-flex w-100 flex-row-reverse mt-4">
+    <router-link class="text-decoration-none" to="/signin"
+      >Already have an account? Sign in</router-link
+    >
+  </div>
+
+  <v-snackbar v-model="errorShow" :timeout="5000" location="top">
+    {{ errorMessage }}
+    <template v-slot:actions>
+      <v-btn color="error" variant="text" @click="() => (errorShow = false)">
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>

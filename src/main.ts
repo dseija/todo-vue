@@ -15,6 +15,20 @@ const vuetify = createVuetify({
   directives,
   theme: {
     defaultTheme: themeMode,
+    themes: {
+      dark: {
+        colors: {
+          primary: '#41B883',
+          secondary: '#bb86fc',
+        },
+      },
+      light: {
+        colors: {
+          primary: '#41B883',
+          secondary: '#bb86fc',
+        },
+      },
+    },
   },
 });
 

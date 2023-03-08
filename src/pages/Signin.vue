@@ -9,6 +9,7 @@ const successMessage = ref(
     ? 'Your account has been created! Now you can sign in.'
     : ''
 );
+const successShow = ref(action === 'register' && status === 'success');
 
 const fetchSettings = async () => {
   const [err, settings] = await getSettings();
@@ -24,11 +25,23 @@ const fetchSettings = async () => {
       content-class="d-flex flex-column align-center"
     >
       <v-avatar color="secondary" class="mt-14">
-        <v-icon icon="mdi-account-circle"></v-icon>
+        <v-icon icon="mdi-account"></v-icon>
       </v-avatar>
       <h2 class="text-h5 mt-2 mb-6">Sign in</h2>
       <UserSigninForm :extra-action="fetchSettings" />
-      <p v-if="successMessage">{{ successMessage }}</p>
+
+      <v-snackbar v-model="successShow" :timeout="5000" location="top">
+        {{ successMessage }}
+        <template v-slot:actions>
+          <v-btn
+            color="success"
+            variant="text"
+            @click="() => (successShow = false)"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-responsive>
   </v-container>
 </template>
