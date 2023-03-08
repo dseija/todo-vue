@@ -19,6 +19,27 @@ const createTodoItem = () => {
 </script>
 
 <template>
-  <input type="text" v-model="description" />
-  <button @click="createTodoItem">+</button>
+  <v-form class="w-100" @submit.prevent="createTodoItem">
+    <v-text-field
+      autofocus
+      variant="solo"
+      placeholder="Add something to do here"
+      color="primary"
+      single-line
+      hide-details
+      v-model="description"
+    >
+      <template v-slot:append-inner class="pt-0">
+        <v-icon
+          v-if="description"
+          icon="mdi-plus-circle"
+          size="36"
+          color="primary"
+          class="mt-n2"
+          style="opacity: 1"
+          @click="createTodoItem"
+        />
+      </template>
+    </v-text-field>
+  </v-form>
 </template>

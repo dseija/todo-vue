@@ -13,7 +13,7 @@ const logout = () => {
 
 <template>
   <v-navigation-drawer v-model="layoutState.sidebarOpen" width="240">
-    <v-list nav>
+    <v-list>
       <v-list-item prepend-icon="mdi-home" value="home" title="Home" to="/" />
       <v-list-item
         prepend-icon="mdi-account"

@@ -29,15 +29,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <p v-if="loading">Loading todos...</p>
-  <p v-if="!loading && !todoStore.todos.length">There's nothing to do yet.</p>
-  <ul v-if="!loading && todoStore.todos.length">
-    <li v-for="(todo, index) in todoStore.todos">
-      <TodoItem
-        :label-id="`todo-item-${todo.id || index}`"
-        :todo="todo"
-        :index="index"
-      />
-    </li>
-  </ul>
+  <v-progress-circular
+    v-if="loading"
+    class="mt-4 mb-8"
+    color="primary"
+    indeterminate
+    size="64"
+  />
+  <p v-if="!loading && !todoStore.todos.length" class="text-body2">
+    There's nothing to do yet.
+  </p>
+  <v-list
+    v-if="!loading && todoStore.todos.length"
+    width="100%"
+    select-strategy="classic"
+  >
+    <TodoItem
+      v-for="(todo, index) in todoStore.todos"
+      :label-id="`todo-item-${todo.id || index}`"
+      :todo="todo"
+      :index="index"
+    />
+  </v-list>
 </template>

@@ -20,13 +20,27 @@ const removeTodoItem = (index: number) => {
 </script>
 
 <template>
-  <input
-    type="checkbox"
-    :id="labelId"
-    :name="labelId"
-    :checked="Boolean(todo.completed)"
-    @change="() => toggleTodoItem(index)"
-  />
-  <label :for="labelId">{{ todo.description }}</label>
-  <button @click="() => removeTodoItem(index)">x</button>
+  <v-list-item
+    class="px-0"
+    :value="labelId"
+    @click="() => toggleTodoItem(index)"
+  >
+    <template v-slot:prepend>
+      <v-list-item-action start>
+        <v-checkbox-btn
+          color="primary"
+          :model-value="Boolean(todo.completed)"
+        ></v-checkbox-btn>
+      </v-list-item-action>
+    </template>
+    <v-list-item-title>{{ todo.description }}</v-list-item-title>
+    <template v-slot:append>
+      <v-btn
+        color="grey-lighten-1"
+        icon="mdi-close"
+        variant="text"
+        @click="() => removeTodoItem(index)"
+      />
+    </template>
+  </v-list-item>
 </template>
