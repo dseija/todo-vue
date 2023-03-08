@@ -18,7 +18,17 @@ const fetchSettings = async () => {
 </script>
 
 <template>
-  <h2>Sign in</h2>
-  <UserSigninForm :extra-action="fetchSettings" />
-  <p v-if="successMessage">{{ successMessage }}</p>
+  <v-container class="d-flex justify-center">
+    <v-responsive
+      max-width="396"
+      content-class="d-flex flex-column align-center"
+    >
+      <v-avatar color="secondary" class="mt-14">
+        <v-icon icon="mdi-account-circle"></v-icon>
+      </v-avatar>
+      <h2 class="text-h5 mt-2 mb-6">Sign in</h2>
+      <UserSigninForm :extra-action="fetchSettings" />
+      <p v-if="successMessage">{{ successMessage }}</p>
+    </v-responsive>
+  </v-container>
 </template>

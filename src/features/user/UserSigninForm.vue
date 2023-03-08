@@ -47,11 +47,35 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <input type="text" v-model="username" placeholder="Email Address" />
-    <input type="password" v-model="password" placeholder="Password" />
-    <button type="submit">Sign In</button>
-  </form>
-  <router-link to="/signup">Don't have an account? Sign Up</router-link>
+  <v-form @submit.prevent="onSubmit" class="w-100">
+    <v-text-field
+      variant="outlined"
+      label="Email Address*"
+      :readonly="submitting"
+      :rules="[(v) => !!v || 'Email Address is required']"
+      v-model="username"
+    />
+    <v-text-field
+      variant="outlined"
+      type="password"
+      label="Password*"
+      :readonly="submitting"
+      :rules="[(v) => !!v || 'Password is required']"
+      v-model="password"
+    />
+    <v-btn type="submit" block color="primary" :disabled="submitting"
+      >Sign In
+      <v-progress-circular
+        v-if="submitting"
+        class="ml-2"
+        indeterminate
+        size="20"
+    /></v-btn>
+  </v-form>
+  <div class="d-flex flex-row-reverse mt-4">
+    <router-link class="text-decoration-none" to="/signup"
+      >Don't have an account? Sign Up</router-link
+    >
+  </div>
   <p v-if="errorMessage" style="color: red">{{ errorMessage }}</p>
 </template>
