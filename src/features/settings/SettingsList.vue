@@ -16,14 +16,16 @@ const toggleThemeMode = () => {
 </script>
 
 <template>
-  <ul>
-    <li>
-      <span>Dark Mode: </span>
-      <input
-        type="checkbox"
-        :checked="settingsStore.settings.themeMode === 'dark'"
-        @change="toggleThemeMode"
-      />
-    </li>
-  </ul>
+  <v-list width="100%">
+    <v-list-item prepend-icon="mdi-brightness-6" title="Dark Mode">
+      <template v-slot:append>
+        <v-switch
+          color="primary"
+          hide-details
+          :model-value="settingsStore.settings.themeMode === 'dark'"
+          @click="toggleThemeMode"
+        />
+      </template>
+    </v-list-item>
+  </v-list>
 </template>
